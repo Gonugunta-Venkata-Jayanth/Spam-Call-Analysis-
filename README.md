@@ -4,58 +4,62 @@
 ![Power Query](https://img.shields.io/badge/Data%20Prep-Power%20Query-blue)
 ![Type](https://img.shields.io/badge/Project-Data%20Analytics-success)
 
-An interactive Power BI report on call data that separates spam from legitimate calls and tracks call-handling performance.
+A one-page Power BI report built on call-center data. It summarises how many calls were answered, how calls are spread across agents, satisfaction ratings by agent, and speed of answer by call topic.
+
+> **Note on scope:** despite the project title, the data in the report has no spam/legitimate label, no spam categories and no date-based trend. It is call-center performance data (agent, answered flag, talk duration, satisfaction, topic, speed of answer). The report is best read as a call-handling performance dashboard.
 
 ---
 
-## Project Summary
-
-Analysed 10,000+ calls in Power BI and identified 35% of them as spam. Spam was classified into telemarketing, fraud, surveys and unknown. Spam calls averaged 45 seconds against 120 seconds for legitimate calls. The report also tracks rising spam trends, and optimising the data model cut report load time by 30%.
-
 ## Problem Statement
 
-Spam calls waste time and hide real customer calls. The aim was to build one dashboard showing how much of the call volume is spam, how spam behaves compared with legitimate calls, and how the trend changes over time.
+A support team needs one view of how its calls are handled: how many calls go unanswered, how the load is split across agents, how satisfied callers are with each agent, and which call topics take longest to answer.
 
 ## Dataset
 
-The data is embedded in the `.pbix` file. The fields used in the report are:
+The data is embedded in the `.pbix` file as two tables imported from an Excel sheet (`Sheet1` and `Sheet1 (2)`). The fields used in the report are:
 
 | Field | Description |
 |---|---|
 | `Agent` | Agent who handled the call |
 | `Answered (Y/N)` | Whether the call was answered |
-| `AvgTalkDuration` | Average talk duration |
+| `AvgTalkDuration` | Average talk duration of the call |
 | `Satisfaction rating` | Caller satisfaction rating |
-| `Time` | Call time |
+| `Time` | Time of the call |
 | `Topic` | Call topic / category |
-| `Speed of answer in seconds` | Time taken to answer |
+| `Speed of answer in seconds` | Time taken to answer (from `Sheet1 (2)`) |
 
 ## Report Visuals
 
-| Visual | What it shows |
-|---|---|
-| Donut chart | Answered vs. unanswered calls |
-| Column chart | Talk duration by agent |
-| Pie chart | Satisfaction rating by agent |
-| Line chart | Call volume over time by agent |
-| Clustered column chart | Speed of answer by topic |
+All visuals sit on a single page titled **Spam Call Analysis**. Each row below is taken from the report definition inside the `.pbix`:
+
+| Visual | Measure | Grouped by |
+|---|---|---|
+| Donut chart | Count of calls | `Answered (Y/N)` |
+| Column chart | Count of `AvgTalkDuration` values (calls with a talk duration) | `Agent` |
+| Pie chart | Sum of `Satisfaction rating` | `Agent` |
+| Line chart | Count of `Time` values (calls logged) | `Agent` |
+| Clustered column chart | Sum of `Speed of answer in seconds` | `Topic` |
 
 ## Workflow
 
 ```mermaid
 flowchart LR
-    A[Raw call data] --> B[Power Query<br/>cleaning & typing]
-    B --> C[Data model<br/>optimisation]
-    C --> D[Measures & aggregations]
-    D --> E[Visuals:<br/>answer rate, duration,<br/>satisfaction, trends, topics]
-    E --> F[Spam Call Analysis<br/>dashboard]
+    A[Excel call log] --> B[Power Query<br/>import & typing]
+    B --> C[Two tables:<br/>Sheet1, Sheet1 (2)]
+    C --> D[Aggregations:<br/>counts and sums]
+    D --> E[Visuals: answer rate,<br/>calls per agent, satisfaction,<br/>speed of answer by topic]
 ```
+
+## Limitations
+
+- No spam classification exists in the data, so the report cannot show spam share, spam types or spam trends.
+- The column and line charts both count calls per agent; neither shows average talk duration or a trend over time.
+- Satisfaction and speed of answer are shown as sums, which favour agents and topics with more calls. Averages would compare them more fairly.
 
 ## Tech Stack
 
 - **Microsoft Power BI Desktop**
-- Power Query (data preparation)
-- Power BI data model and visuals
+- Power Query (data import)
 
 ## Project Structure
 
