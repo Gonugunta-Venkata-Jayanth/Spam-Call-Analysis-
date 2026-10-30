@@ -1,0 +1,9 @@
+# Power BI
+*.pbix.bak
+.pbi/
+~$*
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
