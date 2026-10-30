@@ -45,7 +45,7 @@ All visuals sit on a single page titled **Spam Call Analysis**. Each row below i
 ```mermaid
 flowchart LR
     A[Excel call log] --> B[Power Query<br/>import & typing]
-    B --> C[Two tables:<br/>Sheet1, Sheet1 (2)]
+    B --> C["Two tables:<br/>Sheet1, Sheet1 (2)"]
     C --> D[Aggregations:<br/>counts and sums]
     D --> E[Visuals: answer rate,<br/>calls per agent, satisfaction,<br/>speed of answer by topic]
 ```
